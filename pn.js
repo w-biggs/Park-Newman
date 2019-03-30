@@ -36,6 +36,8 @@ const winScore = (team, a, baseA, b) => {
     } else {
       return 0;
     }
+    // weight by game length as well
+    gameScore *= game.gameLength / 1680;
     score += gameScore * Math.exp(-b * (data.currentWeek - game.week)); 
   });
   return round(score,4);
@@ -68,6 +70,8 @@ const lossScore = (team, a, baseA, b) => {
     } else {
       return 0;
     }
+    // weight by game length as well
+    gameScore *= game.gameLength / 1680;
     score += gameScore * Math.exp(-b * (data.currentWeek - game.week)); 
   });
   //console.log(score);
