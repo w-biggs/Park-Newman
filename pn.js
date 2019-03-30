@@ -1,5 +1,8 @@
 const teams = require('./teams.json');
 const data = require('./games.json');
+const fs = require('fs');
+
+const results = [];
 
 // Avoid floating point errors
 const round = (input, places) => {
@@ -80,5 +83,13 @@ teams.fcs.forEach(team => {
   const w = winScore(team, 1, 0.2, 1/data.seasonLength);
   const l = lossScore(team, 1, 0.2, 1/data.seasonLength);
   const wl = round(w + l, 4);
-
+  results.push([team,wl]);
 })
+
+fs.writeFile("./results.csv", results.map(result => {return result.join()}).join("\n"), err => {
+  if(err){
+    console.log(err);
+  } else {
+    console.log("./results.csv has successfully been written.");
+  }
+});
