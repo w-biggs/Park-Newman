@@ -78,6 +78,14 @@ const lossScore = (team, a, baseA) => {
   return round(score,4);
 }
 
+const sortGames = (a,b) => {
+  if(a[1] === b[1]){
+    return 0;
+  } else {
+    return (a[1] > b[1]) ? -1 : 1;
+  }
+}
+
 teams.fcs.forEach(team => {
   /**
   * In their paper, Park and Newman have a complex process using eigenvalues or something
@@ -88,6 +96,12 @@ teams.fcs.forEach(team => {
   const l = lossScore(team, 1, 0.2);
   const wl = round(w + l, 4);
   results.push([team,wl]);
+})
+
+results.sort(sortGames);
+
+results.forEach((result, index) => {
+  result[2] = index + 1;
 })
 
 fs.writeFile("./results.csv", results.map(result => {return result.join()}).join("\n"), err => {
